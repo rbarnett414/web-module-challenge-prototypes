@@ -15,10 +15,27 @@
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+const stomach = [];
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = stomach;
 }
 
+Person.prototype.eat = function(food) {
+  
+  if(stomach.length <= 10) {
+    stomach.push(food);
+  }
+}
+
+Person.prototype.poop = function() {
+  stomach.length = 0;
+}
+
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`;
+}
 
 /*
   TASK 2
@@ -36,8 +53,26 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
+let tank = 0;
+let odometer = 0;
+function Car(model, mpg) {
+  this.model = model;
+  this.milesPerGallon = mpg;
+  this.tank = tank;
+  this.odometer = odometer;
+}
 
+Car.prototype.fill = function(gallons) {
+  return this.tank += gallons;
+}
+
+Car.prototype.drive = function(distance) {
+  this.odometer += distance;
+  let gallons = distance / this.milesPerGallon;
+  this.tank -= gallons;
+  if (this.tank <= 0) {
+    return `I ran out of fuel at ${this.odometer} miles!`;
+  }
 }
 
 
@@ -49,18 +84,25 @@ function Car() {
         + Should return a string "Playing with x", x being the favorite toy.
 */
 
-function Baby() {
+function Baby(name, age, toy) {
+  Person.call(this, name, age);
+  this.favoriteToy = toy;
+}
 
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
 }
 
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window binding - 'this' value is bound to the global scope.
+  2. Implicit binding - 'this' value is bound to the object to the left of the dot in dot syntax.
+  3. New binding - 'this' value is bound to the specific instance created and called by the constructor function.
+  4. Explicit binding - 'this' value is directly bound to a specified object.
 */
 
 ///////// END OF CHALLENGE /////////
